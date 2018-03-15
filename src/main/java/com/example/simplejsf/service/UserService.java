@@ -17,7 +17,7 @@ public class UserService {
     private UserDao userDao;
 
     public User findByName(User user) {
-        return userDao.findByFirstNameAndMiddleNameAndLastName(user.getFirstName(), user.getMiddleName(), user.getLastName());
+        return userDao.findByName(user.getFirstName(), user.getMiddleName(), user.getLastName());
     }
     
     public List<User> findAll() {
