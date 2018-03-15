@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.print.attribute.standard.Severity;
+import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +24,9 @@ public class RegisterView implements Serializable {
 
     private User user;
 
+    @Inject
+    private FacesContext facesContext;
+    
     @Autowired
     private UserService userService;
 
@@ -38,7 +41,7 @@ public class RegisterView implements Serializable {
 
     public void save() {
         if (userService.findByName(user) != null) {
-            FacesContext.getCurrentInstance().addMessage("Error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "User with that name already exists"));
+            facesContext.addMessage("Error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "User with that name already exists"));
         } else {
             userService.save(user);
             reset();

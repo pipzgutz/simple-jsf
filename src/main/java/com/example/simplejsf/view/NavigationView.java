@@ -2,7 +2,7 @@ package com.example.simplejsf.view;
 
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.context.ExternalContext;
 import javax.inject.Inject;
 import org.springframework.stereotype.Component;
 
@@ -15,15 +15,15 @@ import org.springframework.stereotype.Component;
 public class NavigationView implements Serializable {
 
     @Inject
-    private FacesContext facesContext;
+    private ExternalContext externalContext;
     
     private static final long serialVersionUID = 1L;
 
     public String toUserAccountPage() {
-        return facesContext.getExternalContext().getRequestContextPath() + "/user/account.jsf";
+        return externalContext.getRequestContextPath() + "/user/account.jsf";
     }
     
     public String toAdminRegisterPage() {
-        return facesContext.getExternalContext().getRequestContextPath() + "/admin/register.jsf";
+        return externalContext.getRequestContextPath() + "/admin/register.jsf";
     }
 }
