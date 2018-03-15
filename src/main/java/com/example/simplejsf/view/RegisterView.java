@@ -46,7 +46,10 @@ public class RegisterView implements Serializable {
         } else {
             userService.save(user);
             facesContext.addMessage("Success", new FacesMessage("Success", "User successfully created"));
-            RequestContext.getCurrentInstance().execute("PF('registerDialog').hide()");
+
+            RequestContext requestContext = RequestContext.getCurrentInstance();
+            requestContext.execute("PF('registerDialog').hide()");
+
             reset();
         }
     }

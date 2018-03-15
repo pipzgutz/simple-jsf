@@ -28,7 +28,7 @@
 
             <p:spacer height="5"/>
 
-            <h:form>
+
                 <p:dataTable id="registeredUsersTable" var="user" value="#{registerView.registeredUsers}" emptyMessage="No Registered Users">
                     <p:column headerText="First Name">
                         #{user.firstName}
@@ -47,12 +47,13 @@
                     </p:column>
 
                     <p:column style="width:50px; text-align: center">
-                        <p:commandButton update="@form" icon="ui-icon-trash" title="Delete" actionListener="#{registerView.delete(user)}">
-                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                        </p:commandButton>
+                        <h:form>
+                            <p:commandButton update="@form" icon="ui-icon-trash" title="Delete" actionListener="#{registerView.delete(user)}">
+                                <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </h:form>
                     </p:column>
                 </p:dataTable>
-            </h:form>
         </b:container>
 
         <p:dialog header="Register" widgetVar="registerDialog" minHeight="40" resizable="false" modal="true">
@@ -96,7 +97,7 @@
 
                     <p:spacer height="5"/>
 
-                    <p:commandButton value="REGISTER" action="#{registerView.save()}" update="growl"/>
+                    <p:commandButton value="REGISTER" action="#{registerView.save()}" update="growl registeredUsersTable"/>
                 </h:panelGrid>
             </h:form>
         </p:dialog>
