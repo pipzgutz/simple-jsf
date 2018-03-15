@@ -11,7 +11,7 @@
     <body>
         <p:growl id="growl" showDetail="true" showSummary="true"/>
 
-        <b:navBar brand="Simple" brandHref="/" inverse="true">
+        <b:navBar brand="Bank" brandHref="/" inverse="true">
             <b:navbarLinks>
                 <b:navLink value="Account" href="#{navigationView.toUserAccountPage()}"/>
                 <b:navLink value="Register" href="#{navigationView.toAdminRegisterPage()}" active="true"/>
@@ -103,7 +103,6 @@
 
                     <p:outputLabel for="role" value="Role" />
                     <p:selectOneMenu id="role" value="#{registerView.role}" style="width:150px">
-                        <f:selectItem itemLabel="Select Role" itemValue="" noSelectionOption="true" />
                         <f:selectItem itemLabel="User" itemValue="USER" />
                         <f:selectItem itemLabel="Admin" itemValue="ADMIN" />
                     </p:selectOneMenu>

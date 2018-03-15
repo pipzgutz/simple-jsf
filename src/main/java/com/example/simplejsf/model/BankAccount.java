@@ -27,8 +27,7 @@ public class BankAccount implements Serializable {
     public BankAccount() {
     }
 
-    public BankAccount(Long bankAccountId, double balance) {
-        this.bankAccountId = bankAccountId;
+    public BankAccount(double balance) {
         this.balance = balance;
     }
     

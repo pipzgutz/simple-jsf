@@ -1,5 +1,6 @@
 package com.example.simplejsf.view;
 
+import com.example.simplejsf.model.BankAccount;
 import com.example.simplejsf.model.User;
 import com.example.simplejsf.model.UserRole;
 import com.example.simplejsf.service.UserService;
@@ -50,14 +51,22 @@ public class RegisterView implements Serializable {
             facesContext.addMessage("Error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "User with that name already exists"));
         } else {
             List<UserRole> userRoles = new ArrayList<>();
-            userRoles.add(new UserRole(role));
+            UserRole userRole = new UserRole(role);
+            userRoles.add(userRole);
             user.setUserRoles(userRoles);
+            
+            if ("USER".equals(userRole.getRole())) {
+                List<BankAccount> bankAccounts = new ArrayList<>();
+                bankAccounts.add(new BankAccount(3000.0));
+                user.setBankAccounts(bankAccounts);
+            }
+            
             userService.save(user);
             facesContext.addMessage("Success", new FacesMessage("Success", "User successfully created"));
 
             RequestContext requestContext = RequestContext.getCurrentInstance();
             requestContext.execute("PF('registerDialog').hide()");
-
+            
             reset();
         }
     }

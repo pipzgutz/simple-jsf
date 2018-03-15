@@ -1,12 +1,16 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <head>
         <title>Account</title>
     </head>
     <body>
-        <b:navBar brand="Simple" brandHref="/" inverse="true">
+        <p:growl id="growl" showDetail="true" showSummary="true"/>
+
+        <b:navBar brand="Bank" brandHref="/" inverse="true">
             <b:navbarLinks>
                 <b:navLink value="Account" href="#{navigationView.toUserAccountPage()}" active="true"/>
                 <b:navLink value="Register" href="#{navigationView.toAdminRegisterPage()}"/>
@@ -15,11 +19,66 @@
             <b:navbarLinks pull="right"><b:navLink value="    " href="#"/></b:navbarLinks>
         </b:navBar>
 
-        <b:jumbotron>
-            <b:container fluid="true">
-                <h1>Account</h1>
-            </b:container>
-        </b:jumbotron>
+
+        <b:container fluid="true">
+            <h1>Accounts</h1>
+
+            <p:dataTable id="accountTable" var="user" value="#{accountView.users}" emptyMessage="No Users">
+                <p:column headerText="First Name">
+                    #{user.firstName}
+                </p:column>
+
+                <p:column headerText="Middle Name">
+                    #{user.middleName}
+                </p:column>
+
+                <p:column headerText="Last Name">
+                    #{user.lastName}
+                </p:column>
+
+                <p:column headerText="Balances">
+                    <p:repeat var="bal" value="#{user.bankAccounts}">
+                        #{bal.balance}
+                    </p:repeat>
+                </p:column>
+
+                <p:column>
+                    <h:form>
+                        <p:commandButton value="Withdraw" onclick="PF('withdrawDialog').show()">
+                            <p:ajax event="click" listener="#{accountView.selectBalance(user)}"/>
+                        </p:commandButton>
+
+                        <p:spacer width="2"/>
+
+                        <p:commandButton value="Deposit" onclick="PF('depositDialog').show()">
+                            <p:ajax event="click" listener="#{accountView.selectBalance(user)}"/>
+                        </p:commandButton>
+                    </h:form>
+                </p:column>
+            </p:dataTable>
+
+            <p:dialog header="Withdraw" widgetVar="withdrawDialog" minHeight="40" modal="true">
+                <h:form id="withdrawForm">
+                    <h:panelGrid columns="1">
+                        Enter the amount
+                        <p:inputNumber value="#{accountView.money}" required="true" requiredMessage="Please enter an amount"/>
+
+                        <p:commandButton actionListener="#{accountView.withdraw}" value="Ok" update="withdrawForm growl accountTable"/>
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog header="Deposit" widgetVar="depositDialog" minHeight="40" modal="true">
+                <h:form id="depositForm">
+                    <h:panelGrid columns="1">
+                        Enter the amount
+                        <p:inputNumber value="#{accountView.money}" required="true" requiredMessage="Please enter an amount"/>
+
+                        <p:commandButton actionListener="#{accountView.deposit}" value="Ok" update="depositForm growl accountTable"/>
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+        </b:container>
     </body>
 </html>
 

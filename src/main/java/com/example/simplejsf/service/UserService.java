@@ -25,6 +25,10 @@ public class UserService {
     public List<User> findAll() {
         return userDao.findAll();
     }
+    
+    public List<User> findAllUsers() {
+        return userDao.findAllByRole("USER");
+    }
 
     public void save(User user) {
         userDao.save(user);
@@ -32,5 +36,9 @@ public class UserService {
     
     public void delete(User user) {
         userDao.delete(user);
+    }
+
+    public void update(User selectedUser) {
+        userDao.save(selectedUser);
     }
 }
