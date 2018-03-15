@@ -27,11 +27,11 @@
     </properties>
 
     <dependencies>
-        <dependency>
+<!--        <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>all-themes</artifactId>
             <version>${primefaces-theme.version}</version>
-        </dependency>
+        </dependency>-->
         
         <dependency>
             <groupId>org.joinfaces</groupId>
