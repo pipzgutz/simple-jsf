@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <head>
         <title>Account</title>
     </head>
@@ -42,7 +43,7 @@
                     </p:repeat>
                 </p:column>
 
-                <p:column>
+                <p:column style="width: 400px;">
                     <h:form>
                         <p:commandButton value="Withdraw" onclick="PF('withdrawDialog').show()">
                             <p:ajax event="click" listener="#{accountView.selectBalance(user)}"/>
@@ -51,6 +52,12 @@
                         <p:spacer width="2"/>
 
                         <p:commandButton value="Deposit" onclick="PF('depositDialog').show()">
+                            <p:ajax event="click" listener="#{accountView.selectBalance(user)}"/>
+                        </p:commandButton>
+
+                        <p:spacer width="2"/>
+
+                        <p:commandButton value="Transfer" onclick="PF('transferDialog').show()">
                             <p:ajax event="click" listener="#{accountView.selectBalance(user)}"/>
                         </p:commandButton>
                     </h:form>
@@ -75,6 +82,22 @@
                         <p:inputNumber value="#{accountView.money}" required="true" requiredMessage="Please enter an amount"/>
 
                         <p:commandButton actionListener="#{accountView.deposit}" value="Ok" update="depositForm growl accountTable"/>
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog header="Transfer" widgetVar="transferDialog" minHeight="40" modal="true">
+                <h:form id="transferForm">
+                    <h:panelGrid columns="1">
+                        Enter the amount
+                        <p:inputNumber value="#{accountView.money}" required="true" requiredMessage="Please enter an amount"/>
+                        
+                        <p:selectOneMenu id="usersToTransfer" value="#{accountView.userToTransfer}" style="width:150px"
+                                         converter="#{userConverter}">
+                            <f:selectItems value="#{accountView.usersToTransfer}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:commandButton actionListener="#{accountView.transfer}" value="Ok" update="transferForm growl accountTable"/>
                     </h:panelGrid>
                 </h:form>
             </p:dialog>

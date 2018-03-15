@@ -22,6 +22,10 @@ public class UserService {
         return userDao.findByName(user.getFirstName(), user.getMiddleName(), user.getLastName());
     }
     
+    public User findById(Long id) {
+        return userDao.findOne(id);
+    }
+    
     public List<User> findAll() {
         return userDao.findAll();
     }
