@@ -3,6 +3,7 @@ package com.example.simplejsf.service;
 import com.example.simplejsf.dao.UserDao;
 import com.example.simplejsf.model.User;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
  * @author pgutierrez
  */
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
@@ -26,5 +28,9 @@ public class UserService {
 
     public void save(User user) {
         userDao.save(user);
+    }
+    
+    public void delete(User user) {
+        userDao.delete(user);
     }
 }
