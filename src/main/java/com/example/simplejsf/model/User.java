@@ -3,12 +3,14 @@ package com.example.simplejsf.model;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -36,14 +38,19 @@ public class User implements Serializable {
 
     private Boolean enabled;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private List<UserRole> userRoles;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private List<BankAccount> bankAccounts;
+    
     public User() {
     }
 
-    public User(String firstName, String middleName, String lastName, String email, String password, Boolean enabled, List<UserRole> userRoles) {
+    public User(Long id, String firstName, String middleName, String lastName, String email, String password, Boolean enabled, List<UserRole> userRoles, List<BankAccount> bankAccounts) {
+        this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -51,6 +58,7 @@ public class User implements Serializable {
         this.password = password;
         this.enabled = enabled;
         this.userRoles = userRoles;
+        this.bankAccounts = bankAccounts;
     }
 
     public Long getId() {
@@ -117,6 +125,29 @@ public class User implements Serializable {
         this.userRoles = userRoles;
     }
 
+    public List<BankAccount> getBankAccounts() {
+        return bankAccounts;
+    }
+
+    public void setBankAccounts(List<BankAccount> bankAccounts) {
+        this.bankAccounts = bankAccounts;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.firstName);
+        hash = 97 * hash + Objects.hashCode(this.middleName);
+        hash = 97 * hash + Objects.hashCode(this.lastName);
+        hash = 97 * hash + Objects.hashCode(this.email);
+        hash = 97 * hash + Objects.hashCode(this.password);
+        hash = 97 * hash + Objects.hashCode(this.enabled);
+        hash = 97 * hash + Objects.hashCode(this.userRoles);
+        hash = 97 * hash + Objects.hashCode(this.bankAccounts);
+        return hash;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -153,12 +184,9 @@ public class User implements Serializable {
         if (!Objects.equals(this.userRoles, other.userRoles)) {
             return false;
         }
+        if (!Objects.equals(this.bankAccounts, other.bankAccounts)) {
+            return false;
+        }
         return true;
-    }
-
-    
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, middleName, lastName, email, password, enabled, userRoles);
     }
 }

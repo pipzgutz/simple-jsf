@@ -29,31 +29,37 @@
             <p:spacer height="5"/>
 
 
-                <p:dataTable id="registeredUsersTable" var="user" value="#{registerView.registeredUsers}" emptyMessage="No Registered Users">
-                    <p:column headerText="First Name">
-                        #{user.firstName}
-                    </p:column>
+            <p:dataTable id="registeredUsersTable" var="user" value="#{registerView.registeredUsers}" emptyMessage="No Registered Users">
+                <p:column headerText="First Name">
+                    #{user.firstName}
+                </p:column>
 
-                    <p:column headerText="Middle Name">
-                        #{user.middleName}
-                    </p:column>
+                <p:column headerText="Middle Name">
+                    #{user.middleName}
+                </p:column>
 
-                    <p:column headerText="Last Name">
-                        #{user.lastName}
-                    </p:column>
+                <p:column headerText="Last Name">
+                    #{user.lastName}
+                </p:column>
 
-                    <p:column headerText="Email Address">
-                        #{user.email}
-                    </p:column>
+                <p:column headerText="Email Address">
+                    #{user.email}
+                </p:column>
 
-                    <p:column style="width:50px; text-align: center">
-                        <h:form>
-                            <p:commandButton update="@form" icon="ui-icon-trash" title="Delete" actionListener="#{registerView.delete(user)}">
-                                <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-                            </p:commandButton>
-                        </h:form>
-                    </p:column>
-                </p:dataTable>
+                <p:column headerText="Balances">
+                    <p:repeat var="bal" value="#{user.bankAccounts}">
+                        #{bal.balance}
+                    </p:repeat>
+                </p:column>
+
+                <p:column style="width:50px; text-align: center">
+                    <h:form>
+                        <p:commandButton update="registeredUsersTable" icon="ui-icon-trash" title="Delete" actionListener="#{registerView.delete(user)}">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </h:form>
+                </p:column>
+            </p:dataTable>
         </b:container>
 
         <p:dialog header="Register" widgetVar="registerDialog" minHeight="40" resizable="false" modal="true">
@@ -95,9 +101,16 @@
                         <p:message for="password" />
                     </p:tooltip>
 
+                    <p:outputLabel for="role" value="Role" />
+                    <p:selectOneMenu id="role" value="#{registerView.role}" style="width:150px">
+                        <f:selectItem itemLabel="Select Role" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="User" itemValue="USER" />
+                        <f:selectItem itemLabel="Admin" itemValue="ADMIN" />
+                    </p:selectOneMenu>
+
                     <p:spacer height="5"/>
 
-                    <p:commandButton value="REGISTER" action="#{registerView.save()}" update="growl registeredUsersTable"/>
+                    <p:commandButton value="REGISTER" action="#{registerView.save()}" update="@form growl registeredUsersTable"/>
                 </h:panelGrid>
             </h:form>
         </p:dialog>
