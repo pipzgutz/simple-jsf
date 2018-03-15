@@ -1,11 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
     <head>
         <title>Register</title>
     </head>
     <body>
+        <p:growl id="growl" showDetail="true" showSummary="true"/>
+
         <b:navBar brand="Simple" brandHref="/" inverse="true">
             <b:navbarLinks>
                 <b:navLink value="Account" href="#{navigationView.toUserAccountPage()}"/>
@@ -15,11 +19,70 @@
             <b:navbarLinks pull="right"><b:navLink value="    " href="#"/></b:navbarLinks>
         </b:navBar>
 
-        <b:jumbotron>
-            <b:container fluid="true">
-                <h1>Register</h1>
-            </b:container>
-        </b:jumbotron>
+        <b:container fluid="true">
+            <p:commandButton value="Register" type="button" onclick="PF('registerDialog').show();" />
+            
+            <p:dataTable id="registeredUsersTable" var="user" value="#{registerView.registeredUsers}" emptyMessage="No Registered Users">
+                <p:column headerText="First Name">
+                    #{user.firstName}
+                </p:column>
+
+                <p:column headerText="Middle Name">
+                    #{user.middleName}
+                </p:column>
+
+                <p:column headerText="Last Name">
+                    #{user.lastName}
+                </p:column>
+
+                <p:column headerText="Email Address">
+                    #{user.email}
+                </p:column>
+            </p:dataTable>
+        </b:container>
+
+        <p:dialog header="Register" widgetVar="registerDialog" minHeight="40" resizable="false" modal="true">
+            <h:form id="registerForm">
+                <h:panelGrid columns="1">
+                    <p:outputLabel for="firstName" value="First Name:"/>
+                    <p:inputText id="firstName" value="#{registerView.user.firstName}" required="true" requiredMessage="Please enter a first name"/>
+                    <p:tooltip for="firstName"
+                               rendered="#{not empty facesContext.messageList and not empty facesContext.getMessageList('registerForm:firstName')}">
+                        <p:message for="firstName" />
+                    </p:tooltip>
+
+                    <p:outputLabel for="middleName" value="Middle Name:"/>
+                    <p:inputText id="middleName" value="#{registerView.user.middleName}"  required="true" requiredMessage="Please enter a middle name"/>
+                    <p:tooltip for="middleName"
+                               rendered="#{not empty facesContext.messageList and not empty facesContext.getMessageList('registerForm:middleName')}">
+                        <p:message for="middleName" />
+                    </p:tooltip>
+
+                    <p:outputLabel for="lastName" value="Last Name:"/>
+                    <p:inputText id="lastName" value="#{registerView.user.lastName}"  required="true" requiredMessage="Please enter a last name"/>
+                    <p:tooltip for="lastName"
+                               rendered="#{not empty facesContext.messageList and not empty facesContext.getMessageList('registerForm:lastName')}">
+                        <p:message for="lastName" />
+                    </p:tooltip>
+
+                    <p:outputLabel for="email" value="Email:"/>
+                    <p:inputText id="email" value="#{registerView.user.email}"  required="true" requiredMessage="Please enter an email"/>
+                    <p:tooltip for="email"
+                               rendered="#{not empty facesContext.messageList and not empty facesContext.getMessageList('registerForm:email')}">
+                        <p:message for="email" />
+                    </p:tooltip>
+
+                    <p:outputLabel for="password" value="Password:"/>
+                    <p:password id="password" value="#{registerView.user.password}"  required="true" requiredMessage="Please enter a password"/>
+                    <p:tooltip for="password"
+                               rendered="#{not empty facesContext.messageList and not empty facesContext.getMessageList('registerForm:password')}">
+                        <p:message for="password" />
+                    </p:tooltip>
+
+                    <p:commandButton value="Register" action="#{registerView.save()}" update="registerForm growl registeredUsersTable"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
     </body>
 </html>
 
