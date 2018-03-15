@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui">
+    <head>
+        <title>Account</title>
+    </head>
+    <body>
+        <b:navBar brand="Simple" brandHref="/" inverse="true">
+            <b:navbarLinks>
+                <b:navLink value="Account" href="#{navigationView.toUserAccountPage()}"/>
+                <b:navLink value="Register" href="#{navigationView.toAdminRegisterPage()}"/>
+            </b:navbarLinks>
+            <!-- Following line is needed for TBS 3.0.1 (panel content overflow issue) -->
+            <b:navbarLinks pull="right"><b:navLink value="    " href="#"/></b:navbarLinks>
+        </b:navBar>
+
+        <b:jumbotron>
+            <b:container fluid="true">
+                <h1>Account</h1>
+            </b:container>
+        </b:jumbotron>
+    </body>
+</html>
+
